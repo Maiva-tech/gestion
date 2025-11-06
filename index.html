@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil - Gestion de Présence</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: url('https://images.unsplash.com/photo-1581090700227-1ec0b83249a2?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    header {
+        background-color: rgba(0, 0, 255, 0.8);
+        padding: 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        background-color: rgba(204, 224, 255, 0.9);
+        padding: 15px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: blue;
+        font-weight: bold;
+        margin: 0 15px;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: 0.3s;
+        background-color: white;
+    }
+
+    nav a:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 120px);
+        text-align: center;
+        backdrop-filter: brightness(0.8);
+    }
+
+    main h2 {
+        font-size: 2em;
+        background-color: rgba(0, 0, 255, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px;
+        background-color: rgba(0, 0, 255, 0.8);
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Gestion de Présence en Salle de Classe</h1>
+</header>
+
+<nav>
+    <a href="login.html">Connexion</a>
+    <a href="students.html">Étudiants</a>
+    <a href="professors.html">Professeurs</a>
+    <a href="courses.html">Cours</a>
+    <a href="attendance.html">Prise de Présence</a>
+    <a href="history.html">Historique</a>
+</nav>
+
+<main>
+    <h2>Bienvenue dans l'application de gestion de présence</h2>
+</main>
+
+<footer>
+    &copy; 2025 Université / École
+</footer>
+
+<script>
+// Exemple de message d'accueil dynamique
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Bienvenue sur l'application de gestion de présence !");
+});
+</script>
+
+</body>
+</html>

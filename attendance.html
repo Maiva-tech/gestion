@@ -1,0 +1,58 @@
+<div>
+    <h2>Prise de Présence</h2>
+
+    <label for="selectCourse">Choisir le cours :</label>
+    <select id="selectCourse"></select>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-top:20px; width:100%;">
+        <thead>
+            <tr>
+                <th>Étudiant</th>
+                <th>Présent</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceTable"></tbody>
+    </table>
+    <button id="saveAttendance">Enregistrer</button>
+</div>
+
+<script>
+    // Exemple simple : étudiants simulés
+    const students = [
+        {name:"Alice"}, {name:"Bob"}, {name:"Charlie"}
+    ];
+
+    const courses = ["Maths","Physique","Informatique"];
+    const selectCourse = document.getElementById('selectCourse');
+    courses.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.textContent = c;
+        selectCourse.appendChild(option);
+    });
+
+    const attendanceTable = document.getElementById('attendanceTable');
+
+    function renderAttendance() {
+        attendanceTable.innerHTML = '';
+        students.forEach((s,i) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${s.name}</td>
+                <td><input type="checkbox" id="present_${i}"></td>
+            `;
+            attendanceTable.appendChild(row);
+        });
+    }
+
+    renderAttendance();
+
+    document.getElementById('saveAttendance').addEventListener('click', () => {
+        const attendance = students.map((s,i) => ({
+            student: s.name,
+            present: document.getElementById(`present_${i}`).checked
+        }));
+        console.log("Présences enregistrées :", attendance);
+        alert("Présences enregistrées dans la console (simulation) !");
+    });
+</script>

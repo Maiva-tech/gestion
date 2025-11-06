@@ -1,0 +1,75 @@
+<div>
+    <h2>Gestion des Étudiants</h2>
+
+    <!-- Formulaire ajout étudiant -->
+    <form id="addStudentForm">
+        <input type="text" id="studentName" placeholder="Nom complet" required>
+        <input type="email" id="studentEmail" placeholder="Email" required>
+        <input type="text" id="studentClass" placeholder="Classe" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <!-- Liste des étudiants -->
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-top:20px; width:100%;">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Classe</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody">
+            <!-- Les étudiants seront ajoutés ici -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const form = document.getElementById('addStudentForm');
+    const tableBody = document.getElementById('studentTableBody');
+
+    let students = [];
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const student = {
+            name: document.getElementById('studentName').value,
+            email: document.getElementById('studentEmail').value,
+            classe: document.getElementById('studentClass').value
+        };
+        students.push(student);
+        renderTable();
+        form.reset();
+    });
+
+    function renderTable() {
+        tableBody.innerHTML = '';
+        students.forEach((s, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${s.name}</td>
+                <td>${s.email}</td>
+                <td>${s.classe}</td>
+                <td>
+                    <button onclick="deleteStudent(${index})">Supprimer</button>
+                    <button onclick="editStudent(${index})">Modifier</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function deleteStudent(index) {
+        students.splice(index, 1);
+        renderTable();
+    }
+
+    function editStudent(index) {
+        const s = students[index];
+        document.getElementById('studentName').value = s.name;
+        document.getElementById('studentEmail').value = s.email;
+        document.getElementById('studentClass').value = s.classe;
+        deleteStudent(index); // Supprime l'ancien pour le remplacer à l'enregistrement
+    }
+</script>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription - Gestion de Présence</title>
+<style>
+    body {
+        margin:0;
+        font-family: Arial, sans-serif;
+        background: url('https://images.unsplash.com/photo-1581091870626-cf69b3b4bbf6?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+        background-size: cover;
+    }
+    header {
+        background-color: rgba(0,68,204,0.9);
+        color: white;
+        padding: 15px 20px;
+        font-size: 20px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    footer {
+        background-color: rgba(0,68,204,0.9);
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    }
+    .form-container {
+        margin: 100px auto 80px auto;
+        padding: 20px;
+        max-width: 400px;
+        background-color: rgba(255,255,255,0.95);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #0044cc;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #003399;
+    }
+    .login {
+        font-size: 14px;
+        text-align: center;
+    }
+    .login a {
+        color: #0044cc;
+        text-decoration: none;
+    }
+    .login a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    Gestion de Présence - Université
+</header>
+
+<div class="form-container">
+    <h2>Inscription</h2>
+    <input type="text" id="name" placeholder="Nom complet" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required>
+    <select id="role">
+        <option value="prof">Professeur</option>
+        <option value="admin">Administrateur</option>
+    </select>
+    <button id="registerBtn">S'inscrire</button>
+    <div class="login">
+        Déjà inscrit ? <a href="login.html">Se connecter</a>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 Université - Tous droits réservés
+</footer>
+
+<script>
+    if(!localStorage.getItem('users')){
+        localStorage.setItem('users', JSON.stringify([
+            {name:'Admin', email:'admin@uni.com', password:'admin123', role:'admin'},
+            {name:'Professeur', email:'prof@uni.com', password:'prof123', role:'prof'}
+        ]));
+    }
+
+    document.getElementById('registerBtn').addEventListener('click', () => {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const role = document.getElementById('role').value;
+
+        if(!name || !email || !password || !confirmPassword){
+            alert("Veuillez remplir tous les champs !");
+            return;
+        }
+
+        if(password !== confirmPassword){
+            alert("Les mots de passe ne correspondent pas !");
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem('users'));
+        if(users.some(u => u.email === email)){
+            alert("Cet email est déjà utilisé !");
+            return;
+        }
+
+        users.push({name, email, password, role});
+        localStorage.setItem('users', JSON.stringify(users));
+        alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<div>
+    <h2>Historique des Présences</h2>
+
+    <label for="filterCourse">Filtrer par cours :</label>
+    <select id="filterCourse">
+        <option value="Maths">Maths</option>
+        <option value="Physique">Physique</option>
+        <option value="Informatique">Informatique</option>
+    </select>
+    <button id="printHistory">Imprimer</button>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-top:20px; width:100%;">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Cours</th>
+                <th>Étudiant</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody id="historyTable"></tbody>
+    </table>
+</div>
+
+<script>
+    const historyTable = document.getElementById('historyTable');
+    const filterCourse = document.getElementById('filterCourse');
+
+    const sampleHistory = [
+        {date:"2025-11-06",course:"Maths",student:"Alice",status:"Présent"},
+        {date:"2025-11-06",course:"Maths",student:"Bob",status:"Absent"},
+        {date:"2025-11-05",course:"Physique",student:"Charlie",status:"Présent"},
+    ];
+
+    function renderHistory(course) {
+        historyTable.innerHTML = '';
+        const filtered = sampleHistory.filter(h => h.course === course);
+        filtered.forEach(h => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${h.date}</td>
+                <td>${h.course}</td>
+                <td>${h.student}</td>
+                <td>${h.status}</td>
+            `;
+            historyTable.appendChild(row);
+        });
+    }
+
+    filterCourse.addEventListener('change', () => {
+        renderHistory(filterCourse.value);
+    });
+
+    document.getElementById('printHistory').addEventListener('click', () => {
+        window.print();
+    });
+
+    renderHistory(filterCourse.value);
+</script>

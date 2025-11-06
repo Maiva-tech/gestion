@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des Professeurs</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e6ecff;
+        margin: 0;
+    }
+    header {
+        background-color: blue;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    nav {
+        background-color: #cce0ff;
+        padding: 15px;
+        display: flex;
+        justify-content: space-around;
+    }
+    nav a {
+        text-decoration: none;
+        color: blue;
+        font-weight: bold;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    main {
+        padding: 20px;
+    }
+    h2 {
+        color: blue;
+    }
+    form {
+        margin-bottom: 20px;
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0,0,255,0.2);
+    }
+    form input {
+        padding: 8px;
+        margin: 5px 10px 5px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    form button {
+        padding: 8px 15px;
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    form button:hover {
+        background-color: #003399;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #cce0ff;
+        color: blue;
+    }
+    button.deleteBtn {
+        padding: 5px 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button.deleteBtn:hover {
+        background-color: darkred;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Gestion des Professeurs</h1>
+</header>
+<nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="students.html">Étudiants</a>
+    <a href="courses.html">Cours</a>
+    <a href="attendance.html">Prise de présence</a>
+    <a href="history.html">Historique</a>
+    <a href="login.html" id="logoutBtn">Déconnexion</a>
+</nav>
+<main>
+    <h2>Ajouter un professeur</h2>
+    <form id="professorForm">
+        <input type="text" id="profName" placeholder="Nom complet" required>
+        <input type="email" id="profEmail" placeholder="Email" required>
+        <input type="password" id="profPassword" placeholder="Mot de passe" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Liste des professeurs</h2>
+    <table id="professorTable">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Mot de passe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les professeurs seront ajoutés ici dynamiquement -->
+        </tbody>
+    </table>
+</main>
+
+<script>
+const professorForm = document.getElementById("professorForm");
+const professorTableBody = document.querySelector("#professorTable tbody");
+
+let professors = [];
+
+// Afficher les professeurs
+function displayProfessors() {
+    professorTableBody.innerHTML = "";
+    professors.forEach((prof, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${prof.name}</td>
+            <td>${prof.email}</td>
+            <td>${prof.password}</td>
+            <td>
+                <button class="deleteBtn" onclick="deleteProfessor(${index})">Supprimer</button>
+                <button onclick="editProfessord(${index})">Modifier</button>
+            </td>
+        `;
+        professorTableBody.appendChild(row);
+    });
+}
+
+// Supprimer un professeur
+function deleteProfessor(index) {
+    if(confirm("Voulez-vous vraiment supprimer ce professeur ?")) {
+        professors.splice(index, 1);
+        displayProfessors();
+    }
+}
+
+// Ajouter un professeur
+professorForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    const name = document.getElementById("profName").value.trim();
+    const email = document.getElementById("profEmail").value.trim();
+    const password = document.getElementById("profPassword").value.trim();
+
+    if(name && email && password){
+        professors.push({ name, email, password });
+        displayProfessors();
+        professorForm.reset();
+    }
+});
+
+// Déconnexion simulée
+document.getElementById("logoutBtn").addEventListener("click", function(e){
+    e.preventDefault();
+    alert("Déconnexion réussie !");
+    window.location.href = "login.html";
+});
+
+// Affichage initial
+displayProfessors();
+</script>
+</body>
+</html>

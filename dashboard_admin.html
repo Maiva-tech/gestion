@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        min-height: 100vh;
+        background-color: #f2f7ff;
+    }
+    /* Sidebar */
+    .sidebar {
+        width: 220px;
+        background-color: #0044cc;
+        color: white;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+    }
+    .sidebar h2 {
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .sidebar a {
+        color: white;
+        padding: 12px 20px;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .sidebar a.active {
+        background-color: #003399;
+    }
+    /* Main content */
+    .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    .main-content h1 {
+        color: blue;
+    }
+    .footer {
+        text-align: center;
+        background-color: #0044cc;
+        color: white;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        left: 220px;
+        width: calc(100% - 220px);
+    }
+    .button-link {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 10px 5px;
+        background-color: blue;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button-link:hover {
+        background-color: #003399;
+    }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a data-page="students.html" class="active">Gestion des Étudiants</a>
+    <a data-page="courses.html">Gestion des Cours</a>
+    <a data-page="attendance.html">Gestion des Présences</a>
+    <a data-page="history.html">Historique</a>
+    <a id="logout">Déconnexion</a>
+</div>
+
+<div class="main-content" id="mainContent">
+    <h1>Bienvenue, Admin !</h1>
+    <p>Le contenu des pages s’affichera ici.</p>
+</div>
+
+<div class="footer">
+    &copy; 2025 Université - Gestion de Présences
+</div>
+
+<script>
+    const links = document.querySelectorAll('.sidebar a[data-page]');
+    const mainContent = document.getElementById('mainContent');
+
+    // Fonction pour charger une page HTML dans mainContent
+    async function loadPage(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Erreur de chargement');
+            const html = await response.text();
+            mainContent.innerHTML = html;
+        } catch (err) {
+            mainContent.innerHTML = `<p style="color:red;">Impossible de charger la page.</p>`;
+            console.error(err);
+        }
+    }
+
+    // Gérer clic sur sidebar
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            links.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            const page = link.getAttribute('data-page');
+            loadPage(page);
+        });
+    });
+
+    // Déconnexion simulée
+    document.getElementById('logout').addEventListener('click', () => {
+        alert("Vous êtes déconnecté !");
+        window.location.href = "login.html";
+    });
+
+    // Charger la page par défaut
+    loadPage('students.html');
+</script>
+
+</body>
+</html>

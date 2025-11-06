@@ -1,0 +1,85 @@
+<div>
+    <h2>Gestion des Cours</h2>
+
+    <!-- Formulaire ajout cours -->
+    <form id="addCourseForm">
+        <input type="text" id="courseName" placeholder="Nom du cours" required>
+        <input type="text" id="courseProf" placeholder="Professeur" required>
+        <input type="text" id="courseClass" placeholder="Classe" required>
+        <input type="time" id="startTime" required>
+        <input type="time" id="endTime" required>
+        <input type="text" id="day" placeholder="Jour" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <!-- Liste des cours -->
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-top:20px; width:100%;">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Professeur</th>
+                <th>Classe</th>
+                <th>Horaires</th>
+                <th>Jour</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="courseTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    const courseForm = document.getElementById('addCourseForm');
+    const courseTableBody = document.getElementById('courseTableBody');
+    let courses = [];
+
+    courseForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const course = {
+            name: document.getElementById('courseName').value,
+            prof: document.getElementById('courseProf').value,
+            classe: document.getElementById('courseClass').value,
+            start: document.getElementById('startTime').value,
+            end: document.getElementById('endTime').value,
+            day: document.getElementById('day').value
+        };
+        courses.push(course);
+        renderCourses();
+        courseForm.reset();
+    });
+
+    function renderCourses() {
+        courseTableBody.innerHTML = '';
+        courses.forEach((c,index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${c.name}</td>
+                <td>${c.prof}</td>
+                <td>${c.classe}</td>
+                <td>${c.start} - ${c.end}</td>
+                <td>${c.day}</td>
+                <td>
+                    <button onclick="deleteCourse(${index})">Supprimer</button>
+                    <button onclick="editCourse(${index})">Modifier</button>
+                </td>
+            `;
+            courseTableBody.appendChild(row);
+        });
+    }
+
+    function deleteCourse(index) {
+        courses.splice(index,1);
+        renderCourses();
+    }
+
+    function editCourse(index) {
+        const c = courses[index];
+        document.getElementById('courseName').value = c.name;
+        document.getElementById('courseProf').value = c.prof;
+        document.getElementById('courseClass').value = c.classe;
+        document.getElementById('startTime').value = c.start;
+        document.getElementById('endTime').value = c.end;
+        document.getElementById('day').value = c.day;
+        deleteCourse(index);
+    }
+</script>
